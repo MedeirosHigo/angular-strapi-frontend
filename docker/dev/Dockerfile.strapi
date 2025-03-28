@@ -1,0 +1,19 @@
+FROM node:18
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential libvips-dev
+
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /opt/
+COPY lumiere-strapi/package.json lumiere-strapi/package-lock.json ./
+RUN npm install --no-optional --unsafe-perm && npm rebuild sharp --verbose
+
+RUN npm install -g node-gyp
+RUN npm config set fetch-retry-maxtimeout 600000 -g && npm install
+ENV PATH /opt/node_modules/.bin:$PATH
+
+WORKDIR /opt/app
+COPY lumiere-strapi ./
+
+EXPOSE 1337
+CMD [ "npm", "run", "develop" ]

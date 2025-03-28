@@ -1,0 +1,10 @@
+FROM node:18
+
+WORKDIR /src/app
+COPY lumiere-app/package.json lumiere-app/package-lock.json ./
+RUN npm install
+RUN npm install -g @angular/cli
+COPY lumiere-app ./
+
+EXPOSE 4200
+CMD [ "npm", "start" ]

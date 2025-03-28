@@ -1,0 +1,54 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: strapi
+          POSTGRES_USER: strapi
+          POSTGRES_PASSWORD: strapi
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependeces Angular
+        working-directory: lumiere-app
+        run: npm install
+
+      - name: Lint Angular
+        working-directory: lumiere-app
+        run: npm run lint
+
+      - name: Tests Angular
+        working-directory: lumiere-app
+        run: npm run test -- --watch=false --browsers=ChromeHeadless
+
+      - name: Install Dependences Strapi
+        working-directory: lumiere-strapi
+        run: npm install

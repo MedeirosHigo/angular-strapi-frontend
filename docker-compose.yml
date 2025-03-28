@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  angular:
+    container_name: lumiere-app
+    build: 
+      context: .
+      dockerfile: docker/dev/Dockerfile.angular
+    ports:
+      - "4200:4200"
+    volumes:
+      - "./lumiere-app:/src/app"
+      - /src/app/node_modules
+    command: npm start
+    depends_on:
+      - strapi
+
+  strapi:
+    container_name: lumiere-strapi
+    build:
+      context: .
+      dockerfile: "docker/dev/Dockerfile.strapi"
+    restart: unless-stopped
+    ports:
+      - "1337:1337"
+    volumes:
+      - "./lumiere-strapi:/opt/app"
+      - /opt/app/node_modules
+    environment:
+      DATABASE_CLIENT: sqlite

@@ -1,0 +1,20 @@
+# Ignorar os diretórios node_modules em todos os subprojetos
+**/node_modules
+
+# Ignorar diretórios de build dos projetos
+angular-app/dist
+lumiere-strapi/dist
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos e pastas temporários ou de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de configuração do editor
+.vscode
+.idea
+
+# Se houver outros diretórios que não precisam ser incluídos no build,
+# adicione-os aqui.

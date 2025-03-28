@@ -1,0 +1,18 @@
+{
+  "name": "angular-strapi-frontend",
+  "private": true,
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.0",
+    "cross-env": "^7.0.3"
+  },
+  "lint-staged": {
+    "lumiere-app/**/*.{ts,html,scss}": [
+      "npx eslint --fix --config ./lumiere-app/eslint.config.js",
+      "npx prettier --write"
+    ]
+  }
+}
